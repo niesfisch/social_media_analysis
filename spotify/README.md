@@ -43,6 +43,8 @@ If you are experienced, just make sure you've installed the requirements and sta
 
 **Important**: open the jupyter notebook *spotify.ipynb* and change the values under *CONFIGURATION* to your needs.
 
+Look at the charts and csv files in the *output* folder.
+
 ```bash
 # i use pyenv to manage python versions
 # install and activate python 3.10

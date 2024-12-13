@@ -53,6 +53,7 @@ your local python environment.
 - ```01_setup.ipynb``` will setup local folders and tell your where the data will be stored
 - ```02_download_video_details.ipynb``` will download video details from YouTube (via the API) and your API key
 - ```03_generate_stats.ipynb``` will generate the statistics
+- look at the charts and csv files in the *output* folder
 
 Execute the notebooks in the given order.
 
