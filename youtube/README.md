@@ -58,8 +58,6 @@ Execute the notebooks in the given order.
 
 BEWARE: only execute *02_download_video_details.ipynb* once, as it will download all video details from YouTube and store them locally.
 
-```bash
-
 ### Creating a virtual environment with all dependencies
 
 ```bash
