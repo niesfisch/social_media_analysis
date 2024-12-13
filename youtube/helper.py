@@ -30,15 +30,3 @@ def to_hours(millis: int):
 
 def to_minutes(millis: int):
     return round(millis / 1000 / 60, 2)
-
-# def get_video_details_raw_filename(filename: str):
-#     return f'{output_dir}/video_details_raw/{filename}'
-#
-# def get_generated_filename(filename: str):
-#     return f'{generated_dir}/{filename}'
-#
-# def get_watch_history_filename():
-#     return f'{data_dir}/watch-history.json'
-#
-# def get_stats_filename(filename: str):
-#     return f'{generated_stats_dir}/{filename}'
