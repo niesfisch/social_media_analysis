@@ -17,7 +17,6 @@ The following statistics are calculated:
   - all_videos_by_year_channel.csv
   - top_ten_channels_per_year.csv
   - videos_played_multiple_times.csv
-      - todo
 
 ## Some (anonymized) sample charts
 
