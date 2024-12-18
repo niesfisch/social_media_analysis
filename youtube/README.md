@@ -50,7 +50,8 @@ your local python environment.
 
 - ```config.py``` change the values under *CONFIGURATION* to your needs.
 - ```01_setup.ipynb``` will setup local folders and tell your where the data will be stored
-- ```02_download_video_details.ipynb``` will download video details from YouTube (via the API) and your API key
+- ```02_quick_stats_no_api_key.ipynb``` generates some quick statistics without the need of the Google API key
+- ```03_download_video_details.ipynb``` will download video details from YouTube (via the API) and your API key
 - ```03_generate_stats.ipynb``` will generate the statistics
 - look at the charts and csv files in the *output* folder
 
