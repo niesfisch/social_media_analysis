@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spotify Podcast History Analyzer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="./app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <div class="language-switcher">
+      <button id="langBtn" type="button" class="lang-btn">DE / EN</button>
+      <span class="top-links">
+        <a href="impressum.html" id="topImprintLink">Impressum</a>
+        <a href="datenschutz.html" id="topPrivacyLink">Datenschutz</a>
+        <a href="https://github.com/niesfisch/social_media_analysis" target="_blank" rel="noopener" id="topSourceLink" class="top-github"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> <span id="topSourceText">Quellcode</span></a>
+      </span>
+    </div>
+    <h1 id="pageTitle"></h1>
+    <p class="subtitle" id="pageSubtitle"></p>
+    <p class="field-hint video-podcast-hint" id="videoPodcastHint"></p>
+
+    <section class="card info-card" id="whyCard">
+      <h2 id="whyTitle"></h2>
+      <p id="whyText1"></p>
+      <p id="whyText2"></p>
+      <p class="field-hint" id="whyParentHint"></p>
+      <button id="hideWhyBtn" type="button" style="font-size: 0.85rem; padding: 0.25rem 0.5rem;"></button>
+    </section>
+
+    <section class="card info-card" id="infoCard">
+      <h2 id="howToTitle"></h2>
+      <ol>
+        <li><a href="https://www.spotify.com/account/" target="_blank" id="spotifySettingsLink"></a></li>
+        <li id="privacyStep"></li>
+        <li id="downloadStep"></li>
+        <li id="extendedHistoryStep"></li>
+        <li id="emailStep"></li>
+        <li id="extractStep"></li>
+        <li id="uploadStep"></li>
+      </ol>
+      <div id="privacyNote" class="privacy-notice"></div>
+
+      <p class="field-hint" id="sampleDataHint" style="margin: 0.75rem 0;"></p>
+
+      <p class="field-hint" id="downloadVisualsTitle"></p>
+      <div class="thumb-strip" aria-label="Download steps thumbnails">
+        <a class="thumb-item" href="./doc/1.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/1.png" alt="Step 1">
+          <span class="thumb-preview"><img src="./doc/1.png" alt="Step 1 enlarged"></span>
+        </a>
+        <a class="thumb-item" href="./doc/2.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/2.png" alt="Step 2">
+          <span class="thumb-preview"><img src="./doc/2.png" alt="Step 2 enlarged"></span>
+        </a>
+        <a class="thumb-item" href="./doc/3.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/3.png" alt="Step 3">
+          <span class="thumb-preview"><img src="./doc/3.png" alt="Step 3 enlarged"></span>
+        </a>
+        <a class="thumb-item" href="./doc/4.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/4.png" alt="Step 4">
+          <span class="thumb-preview"><img src="./doc/4.png" alt="Step 4 enlarged"></span>
+        </a>
+        <a class="thumb-item" href="./doc/5.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/5.png" alt="Step 5">
+          <span class="thumb-preview"><img src="./doc/5.png" alt="Step 5 enlarged"></span>
+        </a>
+        <a class="thumb-item" href="./doc/6.png" target="_blank" rel="noopener noreferrer">
+          <img src="./doc/6.png" alt="Step 6">
+          <span class="thumb-preview"><img src="./doc/6.png" alt="Step 6 enlarged"></span>
+        </a>
+      </div>
+      <button id="hideInfoBtn" type="button" style="font-size: 0.85rem; padding: 0.25rem 0.5rem;"></button>
+    </section>
+
+    <section class="controls card">
+      <div class="control-row">
+        <span class="step-number">1.</span>
+        <label for="jsonFile" id="jsonFileLabel">Podcast-Verlauf JSON</label>
+        <input id="jsonFile" type="file" accept="application/json,.json">
+        <button id="sampleBtn" type="button" class="btn-secondary"></button>
+      </div>
+      <div class="control-row actions">
+        <span class="step-number">2.</span>
+        <button id="analyzeBtn" type="button"></button>
+        <button id="downloadCsvBtn" type="button" disabled></button>
+      </div>
+      <div class="control-row">
+        <span class="step-number">3.</span>
+        <label for="yearSelect" id="yearSelectLabel">Jahresbereich für Show-Diagramme</label>
+        <select id="yearSelect" disabled></select>
+        <label for="monthSelect" id="monthSelectLabel" class="sr-only">Monatsbereich für Show-Diagramme</label>
+        <select id="monthSelect" disabled></select>
+        <span id="yearSelectHint" class="field-hint"></span>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section id="showFilterCard" class="card" hidden>
+      <h2 id="filterTitle"></h2>
+      <p class="subtitle" id="filterSubtitle"></p>
+      <p class="field-hint" id="filterSortHint"></p>
+      <div class="control-row">
+        <label for="showFilterSearch" id="searchShowsLabel"></label>
+        <input id="showFilterSearch" type="text">
+      </div>
+      <div class="control-row actions">
+        <button id="selectAllShowsBtn" type="button"></button>
+        <button id="clearAllShowsBtn" type="button"></button>
+      </div>
+      <p id="showFilterSummary" class="status"></p>
+      <div id="showFilterList" class="show-filter-list"></div>
+    </section>
+
+    <section class="card" id="sectionOverview" hidden>
+      <h2 id="overviewTitle"></h2>
+      <div id="overview" class="overview"></div>
+    </section>
+
+    <section class="card" id="sectionAvgPerDay" hidden>
+      <h2 id="avgPerDayPerYearTitle"></h2>
+      <canvas id="avgPerDayPerYearChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionHoursPerMonth" hidden>
+      <h2 id="hoursPerMonthTitle"></h2>
+      <canvas id="hoursPerMonthChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionAvgMinutesPerMonth" hidden>
+      <h2 id="avgMinutesPerMonthTitle"></h2>
+      <canvas id="avgMinutesPerMonthChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionHourDistribution" hidden>
+      <h2 id="percentageDistributionTitle"></h2>
+      <canvas id="hourDistributionChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionAvgMinutesPerHour" hidden>
+      <h2 id="avgMinutesPerHourTitle"></h2>
+      <canvas id="avgMinutesPerHourChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionWeekdayBubbles" hidden>
+      <h2 id="minutesPerWeekdayTitle"></h2>
+      <canvas id="weekdayBubbleChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionHourBubbles" hidden>
+      <h2 id="minutesPerHourTitle"></h2>
+      <canvas id="hourBubbleChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionTopShows" hidden>
+      <h2 id="topShowsTitle"></h2>
+      <canvas id="topShowsChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionStreamTimePerShow" hidden>
+      <h2 id="streamTimePerShowTitle"></h2>
+      <canvas id="streamTimePerShowChart"></canvas>
+    </section>
+
+    <section class="card" id="sectionShowStats" hidden>
+      <h2 id="showStatsTitle"></h2>
+      <div class="table-wrap">
+        <table id="showStatsTable">
+          <thead>
+            <tr>
+              <th></th><th></th><th></th><th></th><th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Marcel Sauer</span>
+    <span class="site-footer-sep">·</span>
+    <a href="impressum.html" id="footerImprintLink">Impressum</a>
+    <span class="site-footer-sep">·</span>
+    <a href="datenschutz.html" id="footerPrivacyLink">Datenschutz</a>
+    <span class="site-footer-sep">·</span>
+    <span id="footerAllLocal">🔒 Alle Daten bleiben lokal in deinem Browser</span>
+    <span class="site-footer-sep">·</span>
+    <a href="https://github.com/niesfisch/social_media_analysis" target="_blank" rel="noopener" id="footerSourceLink"><svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> <span id="footerSourceText">Quellcode</span></a>
+  </footer>
+</body>
+</html>

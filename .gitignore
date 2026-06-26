@@ -1,4 +1,6 @@
 .idea
+dist/
+.env
 
 # Default ignored files
 /shelf/

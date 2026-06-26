@@ -1,0 +1,14 @@
+{
+  "name": "spotify-web-analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "upload": "node upload.mjs",
+    "all": "node build.mjs && node upload.mjs",
+    "selftest": "node ./selftest.mjs",
+    "start": "python3 -m http.server 8000"
+  }
+}
+

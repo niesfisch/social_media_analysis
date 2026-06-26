@@ -1,42 +1,104 @@
-# Social Media Statistics 📈📊🧐
+# Spotify Web Analyzer
 
-Collect and analyze your social media data. Currently supported are:
-- Spotify
-- Youtube
+A small browser-based analysis tool for Spotify podcast history JSON files.
 
-I have kids and they like streaming services. So i started to analyze the data to see what they are watching to get an
-idea of their screen time.
+## How it works
 
-The data i analyzed is pretty interesting, so I decided to share the code with you. Maybe you can use it to analyze your own and your
-children's data.
+1. Upload a `StreamingHistory_podcast_0.json` file exported from your Spotify account.
+2. The tool parses and validates the JSON, then generates aggregated statistics.
+3. You can:
+   - View overview metrics (streams, total hours, shows, year range).
+   - Filter shows by name; all charts and tables recalculate live.
+   - Scope top-10 show charts to a specific year.
+   - Download show statistics as CSV.
 
-> **Don't blame them, talk to them** 
+All analysis happens in your browser. No data is sent to any server.
 
-## Spotify
+## Language support
 
-Follow the instructions in the [spotify](spotify/README.md) folder.
+The tool supports both **German (DE)** and **English (EN)** languages.
+- German is the default language.
+- Click the language button in the top-right corner to toggle between DE and EN.
+- Selected language is saved in your browser's local storage.
 
-## Youtube
+## How to download your Spotify data
 
-Follow the instructions in the [youtube](youtube/README.md) folder.
+1. Open [Spotify Settings](https://www.spotify.com/account/) in your browser.
+2. Go to <strong>Privacy</strong> section.
+3. Click <strong>"Download your data"</strong> or <strong>"Request my personal data"</strong>.
+4. Select <strong>"Extended Streaming History"</strong> (or <strong>"Download your extended streaming history"</strong>) if prompted. This includes podcast episode data.
+5. Follow the link/instructions Spotify sends you (usually via email within a day or two).
+6. Download the ZIP file Spotify provides.
+7. Extract the ZIP.
+8. Navigate to the folder `Spotify Account Data/`.
+9. Copy the file `StreamingHistory_podcast_0.json` (or any `StreamingHistory_podcast_*.json` file).
+10. Upload it into this analyzer using the file picker.
 
-## Disclaimer
+**Note:** Spotify may take a day or two to prepare your data export. The download link is temporary, so save it somewhere safe.
 
-I used python to analyze the data. I am no expert in data analysis not python, so the code may not be perfect 🤓.
-I am not responsible for any damage caused by the use of this code. Use it at your own risk.
+## What it supports
 
-## License
+- Input format: `StreamingHistory_podcast_0.json` (new Spotify account data export)
+- Required keys per record:
+  - `endTime`
+  - `podcastName`
+  - `episodeName`
+  - `msPlayed`
 
-see [LICENSE](LICENSE)
+## Generated charts
 
-## Tips
+- Average minutes per day per year
+- Hours per month
+- Average minutes per day per month
+- Percentage distribution per hour
+- Minutes per weekday (bubble)
+- Minutes per hour (bubble)
+- Top 10 shows in selected year
+- Stream time per show by month (Top 10 in selected year)
+- Show stats table + CSV download
+- Show filter panel (select/unselect shows by name with live recalculation)
 
-You can download [Intellij Ultimate](https://www.jetbrains.com/idea/buy/?section=personal&billing=yearly) and start a trial. 
-It has nice coverage of python and jupyter notebooks.
+## Quick start
 
-# Notes for myself
+Run from this folder and open the shown URL in a browser.
 
 ```bash
-GIT_SSH_COMMAND='ssh -i ~/.ssh/niesfisch' git pull
-GIT_SSH_COMMAND='ssh -i ~/.ssh/niesfisch' git push
+python3 -m http.server 8000
 ```
+
+Then open:
+
+- `http://localhost:8000`
+
+## Build (minified production version)
+
+Requires [Node.js](https://nodejs.org/) (the project uses `esbuild` via `npx`).
+
+```bash
+npm run build
+```
+
+Output goes to `dist/` — three self-contained HTML files with inlined CSS and JS.
+
+## Deploy (build + SFTP upload)
+
+Builds the project and uploads all release files to the remote server.
+
+Reads `FTP_HOST`, `FTP_USER`, and `FTP_PASSWORD` from `~/.env`:
+
+```
+FTP_HOST=your-server.com
+FTP_USER=your_username
+FTP_PASSWORD=your_password
+```
+
+```bash
+npm run all
+```
+
+## Optional self test
+
+```bash
+node ./selftest.mjs
+```
+
